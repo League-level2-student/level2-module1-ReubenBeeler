@@ -25,6 +25,10 @@ public class GuestBook implements ActionListener {
 	JButton left = new JButton();
 	JButton right = new JButton();
 	
+	String[] Guests;
+	int latestGuest = 0;
+	String viewList;
+	
 	public static void main(String args[]) {
 		new GuestBook().setup();
 	}
@@ -41,6 +45,12 @@ public class GuestBook implements ActionListener {
 		panel.add(left);
 		panel.add(right);
 		
+		Guests = new String[12];
+		for (int i = 0; i < 12; i++) {
+			Guests[i] = "";
+		}
+		
+		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -49,7 +59,22 @@ public class GuestBook implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == left) {
-			JOptionPane.showInputDialog(null, "Enter a name: ");
+			if (Guests[11].equals("")) {
+				Guests[latestGuest] = JOptionPane.showInputDialog(frame, "Enter a name: ");
+				latestGuest += 1;
+			} else {
+				JOptionPane.showMessageDialog(frame, "Sorry, GuestBook is full.");
+			}
+		} else if (e.getSource() == right) {
+			viewList = "";
+			for (int i = 0; i < 12; i++) {
+				if (! Guests[i].equals("")) {
+					viewList += "Guest #" + (i + 1) + ": " + Guests[i] + "\n";
+				} else if (Guests[0].equals("") && i == 0) {
+					viewList += "GuestBook Is Empty";
+				}
+			}
+			JOptionPane.showMessageDialog(frame, viewList);
 		}
 	}
 }
